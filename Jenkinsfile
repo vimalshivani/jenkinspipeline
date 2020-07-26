@@ -20,16 +20,20 @@ stages{
             }
         }
 
-        stage ('Deployments'){
-            
+          stage ('Deployments'){
+            parallel{
                 stage ('Deploy to Staging'){
                     steps {
-                        sh "cp  **/target/*.war /Applications/apache-tomcat-9.0.37/webapps"
+                        sh "cp -i  **/target/*.war /Applications/apache-tomcat-9.0.37/webapps"
                     }
                 }
 
-           
-            
+                stage ("Deploy to Production"){
+                    steps {
+                        sh "cp -i  **/target/*.war /Applications/apache-tomcat-9.0.37/webapps"
+                    }
+                }
+            }
         }
     }
 }
